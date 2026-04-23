@@ -84,5 +84,5 @@ export const listS3Files = async (bucket: string, prefix?: string) => {
     throw error;
   }
 };
-
+ 
 export default s3;
