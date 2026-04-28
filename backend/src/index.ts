@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import { initializeDatabase } from './database';
 import authRoutes from './authRoutes';
 import fileRoutes from './fileRoutes';
+import { startWorker } from './worker';
 
 dotenv.config();
 
@@ -51,6 +52,8 @@ const startServer = async () => {
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
+      // Start SQS worker in the background
+      startWorker();
     });
   } catch (error) {
     console.error('Failed to start server:', error);

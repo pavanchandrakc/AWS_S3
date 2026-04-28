@@ -15,6 +15,27 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// Handle expired tokens (401 Unauthorized)
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response && error.response.status === 401) {
+      // Don't redirect if the error is from a login attempt
+      if (error.config.url?.includes('/auth/login')) {
+        return Promise.reject(error);
+      }
+
+      // Clear session data
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      
+      // Redirect to login page (triggering a reload will cause App.tsx to show LoginPage)
+      window.location.href = '/';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export const api = {
   // Auth endpoints
   register: (username: string, email: string, password: string) =>
