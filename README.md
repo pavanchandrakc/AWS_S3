@@ -57,7 +57,7 @@ Before starting, ensure you have:
 1. Go to **AWS Console → S3**
 2. Click **"Create bucket"**
 3. Enter bucket name: `cloudvault-storage` (must be globally unique)
-4. Choose region: `us-east-1` or your preference
+4. Choose region: `us-east-1` or your preference which is nearby
 5. Click **Create**
 
 #### 1.2 Create AWS IAM User
