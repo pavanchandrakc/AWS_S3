@@ -1,14 +1,14 @@
 import { Router, Request, Response } from 'express';
 import multer from 'multer';
-import pool from './database';
-import { authMiddleware } from './auth';
+import pool from '../config/database';
+import { authMiddleware } from '../middlewares/auth';
 import {
   uploadToS3,
   downloadFromS3,
   deleteFromS3,
   listS3Files,
-} from './s3Service';
-import { sendMessageToQueue } from './sqsService';
+} from '../services/s3Service';
+import { sendMessageToQueue } from '../services/sqsService';
 import dotenv from 'dotenv';
 
 dotenv.config();

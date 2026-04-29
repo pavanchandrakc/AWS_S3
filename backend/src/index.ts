@@ -1,10 +1,10 @@
 import express, { Express } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { initializeDatabase } from './database';
-import authRoutes from './authRoutes';
-import fileRoutes from './fileRoutes';
-import { startWorker } from './worker';
+import { initializeDatabase } from './config/database';
+import authRoutes from './routes/authRoutes';
+import fileRoutes from './routes/fileRoutes';
+import { startWorker } from './workers/worker';
 
 dotenv.config();
 

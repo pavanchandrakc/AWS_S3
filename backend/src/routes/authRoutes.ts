@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import bcryptjs from 'bcryptjs';
-import pool from './database';
-import { generateToken } from './auth';
+import pool from '../config/database';
+import { generateToken } from '../middlewares/auth';
 
 const router: Router = Router();
 
