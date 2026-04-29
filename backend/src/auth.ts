@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import dotenv from 'dotenv';
 
@@ -14,9 +14,11 @@ declare global {
 }
 
 export const generateToken = (userId: number): string => {
-  return jwt.sign({ userId }, process.env.JWT_SECRET || 'secret', {
-    expiresIn: '24h',
-  });
+  const secret: jwt.Secret = process.env.JWT_SECRET || 'secret';
+  const options: jwt.SignOptions = {
+    expiresIn: (process.env.JWT_EXPIRES_IN || '1h') as jwt.SignOptions['expiresIn'],
+  };
+  return jwt.sign({ userId }, secret, options);
 };
 
 export const authMiddleware = (

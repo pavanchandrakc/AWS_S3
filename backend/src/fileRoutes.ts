@@ -8,6 +8,7 @@ import {
   deleteFromS3,
   listS3Files,
 } from './s3Service';
+import { sendMessageToQueue } from './sqsService';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -47,9 +48,21 @@ router.post(
         [userId, req.file.originalname, key, req.file.size, req.file.mimetype]
       );
 
+      const fileData = result.rows[0];
+
+      // Send message to SQS for background processing
+      await sendMessageToQueue({
+        action: 'PROCESS_FILE',
+        fileId: fileData.id,
+        userId: fileData.user_id,
+        s3Key: fileData.s3_key,
+        fileName: fileData.file_name,
+        timestamp: new Date().toISOString()
+      });
+
       res.status(201).json({
-        message: 'File uploaded successfully',
-        file: result.rows[0],
+        message: 'File uploaded successfully and queued for processing',
+        file: fileData,
       });
     } catch (error) {
       console.error('Upload error:', error);
